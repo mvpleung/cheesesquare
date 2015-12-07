@@ -20,23 +20,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-
-import java.util.Random;
+import com.support.android.designlibdemo.adapter.CheeseAdpater;
 
 public class CheeseDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "cheese_name";
 
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLinearLayoutManger;
+    private GridLayoutManager mGridLayoutManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_detail_recycle);
 
         Intent intent = getIntent();
         final String cheeseName = intent.getStringExtra(EXTRA_NAME);
@@ -49,6 +55,14 @@ public class CheeseDetailActivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(cheeseName);
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        mGridLayoutManager = new GridLayoutManager(this, 3);
+        mRecyclerView.setLayoutManager(mLinearLayoutManger = new LinearLayoutManager(this));
+//        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(new CheeseAdpater());
+
         loadBackdrop();
     }
 
@@ -59,7 +73,20 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.listview_actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_list:
+                mRecyclerView.setLayoutManager(mLinearLayoutManger);
+                break;
+            case R.id.action_grid:
+                mRecyclerView.setLayoutManager(mGridLayoutManager);
+                break;
+        }
         return true;
     }
 }

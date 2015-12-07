@@ -26,4 +26,8 @@
   <string name="checkin">Checkin</string>
   <string name="menu_settings">Settings</string>
 
+  <!--RecyclerView-->
+  <string name="menu_list">List</string>
+  <string name="menu_grid">Grid</string>
+
 </resources>

@@ -17,6 +17,7 @@
 package com.support.android.designlibdemo;
 
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuPresenter;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -33,10 +34,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +64,23 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
+        }
+
+        //第一种，API形式
+        View mView = navigationView.getHeaderView(0);
+        TextView mTextUser = (TextView) mView.findViewById(R.id.tv_username);
+        mTextUser.setText("测试");
+
+        //第二种，反射
+        try {
+            Field mField = NavigationView.class.getDeclaredField("mPresenter");
+            mField.setAccessible(true);
+            NavigationMenuPresenter mPresenter = (NavigationMenuPresenter) mField.get(navigationView);
+            View mMyView = mPresenter.getHeaderView(0);
+            TextView mTextUserName = (TextView) mView.findViewById(R.id.tv_username);
+            mTextUserName.setText("测试反射");
+        } catch (Exception e) {
+
         }
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -111,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                return true;
-            }
-        });
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
     }
 
     static class Adapter extends FragmentPagerAdapter {

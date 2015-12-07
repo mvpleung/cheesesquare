@@ -38,6 +38,10 @@ public class Cheeses {
         }
     }
 
+    public static final String[] mCheeseTitles = {
+            "Info", "Friends", "Related"
+    };
+
     public static final String[] sCheeseStrings = {
             "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
             "Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale",

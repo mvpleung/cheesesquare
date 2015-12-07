@@ -1,5 +1,7 @@
 ![alt text](https://raw.githubusercontent.com/chrisbanes/cheesesquare/master/art/icon.png)
 
+![alt text](https://raw.githubusercontent.com/chrisbanes/cheesesquare/master/art/art.gif)
+
 Cheesesquare Sample
 ===================================
 
